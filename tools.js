@@ -1,11 +1,23 @@
 import { readFileSync, writeFileSync } from 'fs';
 import ffmpeg from 'ffmpeg.js/ffmpeg-mp4.js';
+import { writeFile, mkdirSync, existsSync } from 'fs';
 
-export function merge(videoDetails) {
-  const videoTitle = videoDetails.title;
-  const audioPath = `${videoTitle}.mp3`;
-  const videoPath = `${videoTitle}.mp4`;
-  const resultPath = './result/output.mp4';
+function createResultFolder() {
+  const dir = './result';
+  if (!existsSync(dir)) {
+    mkdirSync(dir);
+  }
+  writeFile('./result/out.mp4', '', function (err) {
+    if (err) throw err;
+  });
+}
+
+export function merge({ title }) {
+  const audioPath = `${title}.mp3`;
+  const videoPath = `${title}.mp4`;
+  const resultPath = './result/out.mp4';
+
+  createResultFolder();
 
   const audioData = new Uint8Array(readFileSync(audioPath));
   const videoData = new Uint8Array(readFileSync(videoPath));
@@ -13,19 +25,19 @@ export function merge(videoDetails) {
   const result = ffmpeg({
     MEMFS: [
       {
-        name: `${videoTitle}.mp3`,
+        name: `${title}.mp3`,
         data: audioData,
       },
       {
-        name: `${videoTitle}.mp4`,
+        name: `${title}.mp4`,
         data: videoData,
       },
     ],
     arguments: [
       '-i',
-      `${videoTitle}.mp3`,
+      `${title}.mp3`,
       '-i',
-      `${videoTitle}.mp4`,
+      `${title}.mp4`,
       '-c:v',
       'copy',
       '-c:a',
