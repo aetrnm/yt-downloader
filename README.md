@@ -1,1 +1,1 @@
-Note that there must be an empty result folder
+Note that there must be an empty /result folder 
