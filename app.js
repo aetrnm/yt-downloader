@@ -1,9 +1,10 @@
 import Innertube from 'youtubei.js';
+import prompt from 'prompt';
 import { downloadVideo, downloadAudio } from './downloaders.js';
-import { merge } from './tools.js';
+import { merge, getIdByUrl } from './tools.js';
 
-// const videoLink = 'https://www.youtube.com/watch?v=rLEnn_Y4Jbs';
-const videoId = 'rLEnn_Y4Jbs';
+let { videoUrl } = await prompt.get(['videoUrl']);
+const videoId = getIdByUrl(videoUrl);
 const youtube = await new Innertube();
 const videoDetails = await youtube.getDetails(videoId);
 
