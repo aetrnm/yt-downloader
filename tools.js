@@ -50,3 +50,9 @@ export function merge({ title }) {
   const out = result.MEMFS[0];
   writeFileSync(resultPath, Buffer.from(out.data));
 }
+
+export function getIdByUrl(url) {
+  let regex =
+    /(youtu.*be.*)\/(watch\?v=|embed\/|v|shorts|)(.*?((?=[&#?])|$))/gm;
+  return regex.exec(url)[3];
+}
