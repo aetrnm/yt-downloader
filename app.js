@@ -3,7 +3,9 @@ import prompt from 'prompt';
 import { downloadVideo, downloadAudio } from './downloaders.js';
 import { merge, getIdByUrl } from './tools.js';
 
-let { videoUrl } = await prompt.get(['videoUrl']);
+let { videoUrl } = await prompt.get([
+  { name: 'videoUrl', required: true, type: 'string' },
+]);
 const videoId = getIdByUrl(videoUrl);
 const youtube = await new Innertube();
 const videoDetails = await youtube.getDetails(videoId);
